@@ -10,7 +10,7 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    QPixmap getImage(QString string);
+    int** getImage(QString string);
 };
 
 #endif // MAINWINDOW_H

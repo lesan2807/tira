@@ -18,10 +18,14 @@ MainWindow::~MainWindow()
 
 }
 
-QPixmap MainWindow::getImage(QString string){
+int** MainWindow::getImage(QString string){
     QPixmap pixmap;
     pixmap.QPixmap::load(string);
     QImage image = pixmap.toImage();
+    // Allocate a vector of vectors
+      int** matrix = (int**)malloc(60 * sizeof(int*));
+      for ( int row_index = 0; row_index < 60; ++row_index )
+         matrix[row_index] = (int*)malloc(1 * sizeof(int));
     QVector<QVector<int>> rojos(image.height());
     QVector<QVector<int>> verdes(image.height());
     QVector<QVector<int>> azules(image.height());
@@ -35,31 +39,10 @@ QPixmap MainWindow::getImage(QString string){
             azules[i]<<qBlue(*rgb);
             //*rgb = qRgb(qRed(color), qGreen(color), qBlue(color)); // manipulate the image
             ++rgb; // increment rgb to go to the next pixel
+
         }
     }
-    short tamano = image.width()*image.height()*3;
-    char* colores = (char*)malloc(tamano);
-    int contador =0;
-    for(int i = 0; i < image.height();i++){
-        for(int j = 0; j < image.width();j++){
-            colores[contador]=(char) rojos[i][j];
-            contador++;
-            colores[contador]=(char) verdes[i][j];
-            contador++;
-            colores[contador]=(char) azules[i][j];
-            contador++;
-        }
-    }
-    /*for(int i = 0; i <tamano ;i++){
-        printf("%u,",(unsigned)(colores[i]&0xFF));
-    }*/
-    printf("\n %d", tamano);
-   /* for(int i = 0; i < image.height(); ++i){
-        for(int x = 0; x < image.width(); ++x){
-            printf("%d %d %d .",rojos[i][x],verdes[i][x],azules[i][x]);
-        }
-        printf("\n");
-    }*/
-    free(colores);
-    return pixmap;
+
+
+    return matrix;
 }
